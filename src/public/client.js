@@ -17,10 +17,9 @@ const render = async (root, state) => {
 
 // create content
 const App = (state) => {
-    let { rovers, apod } = state
+    let { rovers } = state
 
-    return `
-    `
+    return showNavigation(rovers)
 }
 
 // listening for load event because page should load before any JS is called
@@ -29,7 +28,15 @@ window.addEventListener('load', () => {
 })
 
 // ------------------------------------------------------  COMPONENTS
-
+const showNavigation = (rovers) => {
+    return `
+        <ul>
+            <li><button id=${rovers[0]}>${rovers[0]}</button></li>  
+            <li><button id=${rovers[1]}>${rovers[1]}</button></li>  
+            <li><button id=${rovers[2]}>${rovers[2]}</button></li>
+        </ul>
+    `
+}
 
 
 // ------------------------------------------------------  API CALLS
