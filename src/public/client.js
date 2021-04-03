@@ -21,7 +21,7 @@ const render = async (root, state) => {
 // create content
 const App = (state) => {
     let rovers = state.get('rovers')
-    return showNavigation(rovers)
+    return showNavigation(rovers) + showRoverInfo(state)
 }
 
 // listening for load event because page should load before any JS is called
@@ -40,6 +40,38 @@ const showNavigation = (rovers) => {
     `
 }
 
+const showRoverInfo = (state) => {
+    return `
+        <div id="mission-data">
+            ${showMissionInfo(state.get('roverMissionData'))}
+        </div>
+        <div id="photo-grid">
+            ${showRoverPhotos(state.get('roverPhotos'))}
+        </div>
+    `
+}
+
+const showMissionInfo = (missionDataObj) => {
+    return `
+        <p>Launch Date: ${missionDataObj.launch_date}</p>
+        <p>Landing Date: ${missionDataObj.landing_date}</p>
+        <p>Mission status: ${missionDataObj.status}</p>
+    `
+}
+
+const showRoverPhotos = (photoArray) => {
+    return `
+        ${photoArray.reduce((acc, curr) => acc += photoDiv(curr),'')}
+    `
+}
+
+const photoDiv = (photoObj) => {
+    return `
+        <div class="photo">
+            <img src=${photoObj.img_src} width="200" height="200">
+            <p>Date: ${photoObj.earth_date}</p>
+    `
+}
 
 // ------------------------------------------------------  API CALLS
 
