@@ -21,7 +21,10 @@ const render = async (root, state) => {
 // create content
 const App = (state) => {
     let rovers = state.get('rovers')
-    return showNavigation(rovers) + showRoverInfo(state)
+    if (state.get('selectedRover')) {
+        return showNavigation(rovers) + showRoverInfo(state)
+    }
+    return showNavigation(rovers)
 }
 
 // listening for load event because page should load before any JS is called
