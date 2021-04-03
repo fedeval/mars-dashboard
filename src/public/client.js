@@ -1,5 +1,8 @@
 let store = {
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
+    currentRover: '',
+    roverMissionData: {},
+    roverPhotos: {},
 }
 
 // add our markup to the page
