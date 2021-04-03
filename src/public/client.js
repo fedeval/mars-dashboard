@@ -1,9 +1,9 @@
-let store = {
-    rovers: ['Curiosity', 'Opportunity', 'Spirit'],
+let store = Immutable.Map({
+    rovers: Immutable.List(['Curiosity', 'Opportunity', 'Spirit']),
     currentRover: '',
     roverMissionData: {},
-    roverPhotos: {},
-}
+    roverPhotos: {}
+})
 
 // add our markup to the page
 const root = document.getElementById('root')
@@ -20,8 +20,7 @@ const render = async (root, state) => {
 
 // create content
 const App = (state) => {
-    let { rovers } = state
-
+    let rovers = state.get('rovers')
     return showNavigation(rovers)
 }
 
@@ -34,9 +33,9 @@ window.addEventListener('load', () => {
 const showNavigation = (rovers) => {
     return `
         <ul>
-            <li><button id=${rovers[0]}>${rovers[0]}</button></li>  
-            <li><button id=${rovers[1]}>${rovers[1]}</button></li>  
-            <li><button id=${rovers[2]}>${rovers[2]}</button></li>
+            ${rovers.reduce((acc, curr, i, roversList) => {
+                return acc += `<li><button id=${roversList.get(i)}>${roversList.get(i)}</button></li>`  
+            },'')}
         </ul>
     `
 }
