@@ -1,15 +1,15 @@
 let store = Immutable.Map({
     rovers: Immutable.List(['Curiosity', 'Opportunity', 'Spirit']),
-    currentRover: '',
+    selectedRover: '',
     roverMissionData: {},
-    roverPhotos: {}
+    roverPhotos: []
 })
 
 // add our markup to the page
 const root = document.getElementById('root')
 
 const updateStore = (store, newState) => {
-    store = Object.assign(store, newState)
+    store = store.merge(newState)
     render(root, store)
 }
 
@@ -34,7 +34,7 @@ const showNavigation = (rovers) => {
     return `
         <ul>
             ${rovers.reduce((acc, curr, i, roversList) => {
-                return acc += `<li><button id=${roversList.get(i)}>${roversList.get(i)}</button></li>`  
+                return acc += `<li><button onclick="addRoverInfoToStore(store)" id=${roversList.get(i)}>${roversList.get(i)}</button></li>`  
             },'')}
         </ul>
     `
@@ -44,12 +44,35 @@ const showNavigation = (rovers) => {
 // ------------------------------------------------------  API CALLS
 
 // Example API call
-const getImageOfTheDay = (state) => {
-    let { apod } = state
+const addRoverInfoToStore = async (state) => {
+    const selectedRover = event.currentTarget.id
+    const roverMissionData = await getMissionData(selectedRover)
+    const roverPhotos = await getLatestPhotos(selectedRover)
+    const newState = state
+        .set('selectedRover', selectedRover)
+        .set('roverMissionData', roverMissionData)
+        .set('roverPhotos', roverPhotos)
+    updateStore(state, newState)
+}
 
-    fetch(`http://localhost:3000/apod`)
+const getMissionData = async (rover) => {
+    let missionData = await fetch(`http://localhost:3000/${rover}`)
         .then(res => res.json())
-        .then(apod => updateStore(store, { apod }))
+        .then((data) => {
+            return (({launch_date, landing_date, status}) => ({
+                launch_date,
+                landing_date,
+                status
+            }))(data.roverData.photo_manifest);
+        })
+    return missionData
+}
 
-    return data
+const getLatestPhotos = async (rover) => {
+    let latestPhotos = await fetch(`http://localhost:3000/${rover}/photos`)
+        .then(res => res.json())
+        .then((data) => {
+            return data.roverPhotos.latest_photos.map(photo => ({img_src: photo.img_src, earth_date: photo.earth_date}))
+        })
+    return latestPhotos
 }
