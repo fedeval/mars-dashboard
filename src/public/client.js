@@ -1,11 +1,12 @@
-let store = Immutable.Map({
+// Assign state to a store variable which is an immutable map
+const store = Immutable.Map({
     rovers: Immutable.List(['Curiosity', 'Opportunity', 'Spirit']),
     selectedRover: '',
     roverMissionData: {},
     roverPhotos: []
 })
 
-// add our markup to the page
+// Add markup to the page
 const root = document.getElementById('root')
 
 const updateStore = (store, newState) => {
@@ -18,7 +19,7 @@ const render = async (root, state) => {
 }
 
 
-// create content
+// Create content
 const App = (state) => {
     let rovers = state.get('rovers')
     if (state.get('selectedRover')) {
@@ -27,12 +28,14 @@ const App = (state) => {
     return showNavigation(rovers)
 }
 
-// listening for load event because page should load before any JS is called
+// Listening for load event because page should load before any JS is called
 window.addEventListener('load', () => {
     render(root, store)
 })
 
-// ------------------------------------------------------  COMPONENTS
+// COMPONENTS
+
+// Show navigation buttons to select rover
 const showNavigation = (rovers) => {
     return `
         <ul>
@@ -43,6 +46,8 @@ const showNavigation = (rovers) => {
     `
 }
 
+// Higher order function returning the main html structure to display all rover info
+// Calls two other functions to display mission data and photos
 const showRoverInfo = (state) => {
     return `
         <div id="mission-data">
@@ -54,6 +59,7 @@ const showRoverInfo = (state) => {
     `
 }
 
+// Display overview of mission data
 const showMissionInfo = (missionDataObj) => {
     return `
         <p>Launch Date: ${missionDataObj.launch_date}</p>
@@ -62,12 +68,14 @@ const showMissionInfo = (missionDataObj) => {
     `
 }
 
+// Higher order function taking an array of photo objects which get reduced to a grid html elements
 const showRoverPhotos = (photoArray) => {
     return `
         ${photoArray.reduce((acc, curr) => acc += photoDiv(curr),'')}
     `
 }
 
+// Return a photo div including an image and the date on which it was taken
 const photoDiv = (photoObj) => {
     return `
         <div class="photo">
@@ -76,9 +84,8 @@ const photoDiv = (photoObj) => {
     `
 }
 
-// ------------------------------------------------------  API CALLS
-
-// Example API call
+// API CALLS
+// Call back-end APIs to update store with data for the rover selected on button click
 const addRoverInfoToStore = async (state) => {
     const selectedRover = event.currentTarget.id
     const roverMissionData = await getMissionData(selectedRover)
@@ -90,6 +97,7 @@ const addRoverInfoToStore = async (state) => {
     updateStore(state, newState)
 }
 
+// Get mission information
 const getMissionData = async (rover) => {
     let missionData = await fetch(`http://localhost:3000/${rover}`)
         .then(res => res.json())
@@ -103,6 +111,7 @@ const getMissionData = async (rover) => {
     return missionData
 }
 
+// Get latest photos
 const getLatestPhotos = async (rover) => {
     let latestPhotos = await fetch(`http://localhost:3000/${rover}/photos`)
         .then(res => res.json())
