@@ -19,14 +19,13 @@ const render = async (root, state) => {
     root.innerHTML = App(state)
 }
 
-
 // Create content
 const App = (state) => {
     let rovers = state.get('rovers')
     if (state.get('selectedRover')) {
         return showNavigation(rovers) + showRoverInfo(state)
     }
-    return showNavigation(rovers)
+    return showNavigation(rovers) + showWeatherEmbed()
 }
 
 // Listening for load event because page should load before any JS is called
@@ -35,15 +34,32 @@ window.addEventListener('load', () => {
 })
 
 // COMPONENTS
-
-// Show navigation buttons to select rover
+// Show navigation buttons to select rover or homepage
 const showNavigation = (rovers) => {
     return `
         <div id="buttons">
-            <button id="home">Home</button>
+            <button id="home" onclick="setHomepageState(store)">Home</button>
             ${rovers.reduce((acc, curr, i, roversList) => {
                 return acc += `<button onclick="addRoverInfoToStore(store)" id=${roversList.get(i)}>${roversList.get(i)}</button>`  
             },'')}
+        </div>
+    `
+}
+
+// Render homepage with weather embed
+const setHomepageState = (state) => {
+    const newState = state
+        .set('selectedRover', '')
+        .set('roverMissionData', {})
+        .set('roverPhotos', [])
+        .set('isHomepage', true)
+    updateStore(state, newState)
+}
+
+const showWeatherEmbed = () => {
+    return `
+        <div id="weather-embed">
+            <iframe src='https://mars.nasa.gov/layout/embed/image/mslweather/' width='100%' height='530'  scrolling='no' frameborder='0'></iframe>
         </div>
     `
 }
@@ -99,6 +115,7 @@ const addRoverInfoToStore = async (state) => {
         .set('selectedRover', selectedRover)
         .set('roverMissionData', roverMissionData)
         .set('roverPhotos', roverPhotos)
+        .set('isHomepage', false)
     updateStore(state, newState)
 }
 
