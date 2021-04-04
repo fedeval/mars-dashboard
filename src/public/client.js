@@ -62,9 +62,12 @@ const showRoverInfo = (state) => {
 // Display overview of mission data
 const showMissionInfo = (missionDataObj) => {
     return `
-        <p>Launch Date: ${missionDataObj.launch_date}</p>
-        <p>Landing Date: ${missionDataObj.landing_date}</p>
-        <p>Mission status: ${missionDataObj.status}</p>
+        <img src="assets/images/curiosity.jpeg" alt="Curiosity rover">
+        <div id="mission-info">
+            <p>Launched on ${missionDataObj.launch_date}</p>
+            <p>Landed on ${missionDataObj.landing_date}</p>
+            <p>Status: ${missionDataObj.status}</p>
+        </div>
     `
 }
 

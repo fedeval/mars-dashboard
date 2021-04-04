@@ -35,6 +35,23 @@ button {
   justify-content: space-between;
 }
 
+#mission-data {
+  display: flex;
+  align-items: center;
+  padding: 15px 0; 
+}
+
+#mission-data > img {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+#mission-info {
+  margin-left: 10px;
+}
+
 /* -------------------  TABLET  --------------------- */
 @media (min-width: 768px) {
   /* use mobile */
