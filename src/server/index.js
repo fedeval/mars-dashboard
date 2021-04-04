@@ -35,10 +35,22 @@ const getRoverData = (rovers) => {
 const getRoverPhotos = (rovers) => {
   rovers.forEach(rover => {
     app.get(`/${rover}/photos`, async (req, res) => {
+      let roverPhotos = ''
       try {
-        let roverPhotos = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/latest_photos?api_key=${process.env.API_KEY}`)
-        .then(res => res.json())
-        res.send({ roverPhotos })
+        if (rover === 'curiosity') {
+          roverPhotos = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/latest_photos?api_key=${process.env.API_KEY}`)
+            .then(res => res.json())
+          res.send({ roverPhotos })  
+        // Opportunity and spirit need different endpoints as there are very few photos from latest date and their missions are complete.    
+        } else if (rover === 'opportunity') {
+          roverPhotos = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?api_key=${process.env.API_KEY}&sol=5105`)
+            .then(res => res.json())
+          res.send({ roverPhotos })
+        } else {
+          roverPhotos = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?api_key=${process.env.API_KEY}&sol=2190`)
+            .then(res => res.json())
+          res.send({ roverPhotos })
+        }
       } catch (err) {
         console.log('error:', err);
       }
