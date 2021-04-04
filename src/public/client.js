@@ -3,7 +3,8 @@ const store = Immutable.Map({
     rovers: Immutable.List(['Curiosity', 'Opportunity', 'Spirit']),
     selectedRover: '',
     roverMissionData: {},
-    roverPhotos: []
+    roverPhotos: [],
+    isHomepage: true
 })
 
 // Add markup to the page
