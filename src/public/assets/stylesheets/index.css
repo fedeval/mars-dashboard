@@ -7,9 +7,8 @@ body {
   min-height: 100vh;
 }
 
-#buttons {
-  display: flex;
-  justify-content: space-between;
+header {
+  /* header styles */
 }
 
 main {
@@ -19,6 +18,11 @@ main {
 
 footer {
   /* footer styles */
+}
+
+#buttons {
+  display: flex;
+  justify-content: space-between;
 }
 
 /* -------------------  TABLET  --------------------- */
