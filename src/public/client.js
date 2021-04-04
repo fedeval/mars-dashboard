@@ -64,26 +64,25 @@ const showMissionInfo = (missionDataObj) => {
     return `
         <img src="assets/images/curiosity.jpeg" alt="Curiosity rover">
         <div id="mission-info">
-            <p>Launched on ${missionDataObj.launch_date}</p>
-            <p>Landed on ${missionDataObj.landing_date}</p>
-            <p>Status: ${missionDataObj.status}</p>
+            <p><strong>Launch:</strong> ${missionDataObj.launch_date}</p>
+            <p><strong>Landing:</strong> ${missionDataObj.landing_date}</p>
+            <p><strong>Status:</strong> ${missionDataObj.status}</p>
         </div>
     `
 }
 
 // Higher order function taking an array of photo objects which get reduced to a grid html elements
 const showRoverPhotos = (photoArray) => {
-    return `
-        ${photoArray.reduce((acc, curr) => acc += photoDiv(curr),'')}
-    `
+    return `${photoArray.reduce((acc, curr) => acc += photoDiv(curr),'')}`
 }
 
 // Return a photo div including an image and the date on which it was taken
 const photoDiv = (photoObj) => {
     return `
         <div class="photo">
-            <img src=${photoObj.img_src} width="200" height="200">
-            <p>Date: ${photoObj.earth_date}</p>
+            <img src=${photoObj.img_src}>
+            <p><strong>${photoObj.earth_date}</strong></p>
+        </div>
     `
 }
 

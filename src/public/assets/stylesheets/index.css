@@ -52,6 +52,28 @@ button {
   margin-left: 10px;
 }
 
+#photo-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow: scroll;
+  scroll-behavior: smooth;
+  width: 100%;
+  text-align: center;
+}
+
+.photo {
+  margin-bottom: 20px;
+  border: 2px solid #451804;
+  border-radius: 8px;
+  background: #c1440e;
+}
+
+.photo > img {
+  border-radius: 6px;
+  width: 100%;
+  object-fit: cover;
+}
+
 /* -------------------  TABLET  --------------------- */
 @media (min-width: 768px) {
   /* use mobile */
