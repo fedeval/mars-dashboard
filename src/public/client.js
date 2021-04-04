@@ -38,11 +38,12 @@ window.addEventListener('load', () => {
 // Show navigation buttons to select rover
 const showNavigation = (rovers) => {
     return `
-        <ul>
+        <div id="buttons">
+            <button id="home">Home</button>
             ${rovers.reduce((acc, curr, i, roversList) => {
-                return acc += `<li><button onclick="addRoverInfoToStore(store)" id=${roversList.get(i)}>${roversList.get(i)}</button></li>`  
+                return acc += `<button onclick="addRoverInfoToStore(store)" id=${roversList.get(i)}>${roversList.get(i)}</button>`  
             },'')}
-        </ul>
+        </div>
     `
 }
 
@@ -51,7 +52,7 @@ const showNavigation = (rovers) => {
 const showRoverInfo = (state) => {
     return `
         <div id="mission-data">
-            ${showMissionInfo(state.get('roverMissionData'))}
+            ${showMissionInfo(state.get('roverMissionData'), state.get('selectedRover'))}
         </div>
         <div id="photo-grid">
             ${showRoverPhotos(state.get('roverPhotos'))}
@@ -60,27 +61,30 @@ const showRoverInfo = (state) => {
 }
 
 // Display overview of mission data
-const showMissionInfo = (missionDataObj) => {
+const showMissionInfo = (missionDataObj, rover) => {
     return `
-        <p>Launch Date: ${missionDataObj.launch_date}</p>
-        <p>Landing Date: ${missionDataObj.landing_date}</p>
-        <p>Mission status: ${missionDataObj.status}</p>
+        <img src="assets/images/${rover}.jpeg" alt="Curiosity rover">
+        <div id="mission-info">
+            <h3><strong>${rover.toUpperCase()}</strong></h3>
+            <p><strong>Launch:</strong> ${missionDataObj.launch_date}</p>
+            <p><strong>Landing:</strong> ${missionDataObj.landing_date}</p>
+            <p><strong>Status:</strong> ${missionDataObj.status}</p>
+        </div>
     `
 }
 
 // Higher order function taking an array of photo objects which get reduced to a grid html elements
 const showRoverPhotos = (photoArray) => {
-    return `
-        ${photoArray.reduce((acc, curr) => acc += photoDiv(curr),'')}
-    `
+    return `${photoArray.reduce((acc, curr) => acc += photoDiv(curr),'')}`
 }
 
 // Return a photo div including an image and the date on which it was taken
 const photoDiv = (photoObj) => {
     return `
         <div class="photo">
-            <img src=${photoObj.img_src} width="200" height="200">
-            <p>Date: ${photoObj.earth_date}</p>
+            <img src=${photoObj.img_src}>
+            <p><strong>${photoObj.earth_date}</strong></p>
+        </div>
     `
 }
 

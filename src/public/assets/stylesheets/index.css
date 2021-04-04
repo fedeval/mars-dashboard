@@ -5,6 +5,7 @@ body {
   flex-direction: column;
   font-family: Arial;
   min-height: 100vh;
+  background: #f0e7e7;
 }
 
 header {
@@ -18,6 +19,65 @@ main {
 
 footer {
   /* footer styles */
+}
+
+button {
+  background: #c1440e;
+  padding: 5px;
+  border-radius: 6px;
+  color: #451804;
+  font-weight: bold;
+  border: 2px solid #451804;
+  width: 90px;
+}
+
+button:hover {
+  background: #451804;
+  color: #c1440e;
+}
+
+#buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+#mission-data {
+  display: flex;
+  align-items: center;
+  padding: 15px 0; 
+}
+
+#mission-data > img {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+#mission-info {
+  margin-left: 10px;
+}
+
+#photo-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow: scroll;
+  scroll-behavior: smooth;
+  width: 100%;
+  text-align: center;
+}
+
+.photo {
+  margin-bottom: 20px;
+  border: 2px solid #451804;
+  border-radius: 8px;
+  background: #c1440e;
+}
+
+.photo > img {
+  border-radius: 6px;
+  width: 100%;
+  object-fit: cover;
 }
 
 /* -------------------  TABLET  --------------------- */
