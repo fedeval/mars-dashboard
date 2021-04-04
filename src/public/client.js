@@ -120,7 +120,10 @@ const getLatestPhotos = async (rover) => {
     let latestPhotos = await fetch(`http://localhost:3000/${rover}/photos`)
         .then(res => res.json())
         .then((data) => {
-            return data.roverPhotos.latest_photos.map(photo => ({img_src: photo.img_src, earth_date: photo.earth_date}))
+            if (rover.toLowerCase() === 'curiosity') {
+                return data.roverPhotos.latest_photos.map(photo => ({img_src: photo.img_src, earth_date: photo.earth_date}))
+            }
+            return data.roverPhotos.photos.map(photo => ({img_src: photo.img_src, earth_date: photo.earth_date}))
         })
     return latestPhotos
 }
