@@ -123,6 +123,7 @@ const getLatestPhotos = async (rover) => {
             if (rover.toLowerCase() === 'curiosity') {
                 return data.roverPhotos.latest_photos.map(photo => ({img_src: photo.img_src, earth_date: photo.earth_date}))
             }
+            // Opportunity and Spirit API calls return an object where photos is the right key rather than latest_photos
             return data.roverPhotos.photos.map(photo => ({img_src: photo.img_src, earth_date: photo.earth_date}))
         })
     return latestPhotos
