@@ -39,6 +39,7 @@ window.addEventListener('load', () => {
 const showNavigation = (rovers) => {
     return `
         <div id="buttons">
+            <button id="home">Home</button>
             ${rovers.reduce((acc, curr, i, roversList) => {
                 return acc += `<button onclick="addRoverInfoToStore(store)" id=${roversList.get(i)}>${roversList.get(i)}</button>`  
             },'')}

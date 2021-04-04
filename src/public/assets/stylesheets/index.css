@@ -28,6 +28,7 @@ button {
   color: #451804;
   font-weight: bold;
   border: 2px solid #451804;
+  width: 90px;
 }
 
 #buttons {
