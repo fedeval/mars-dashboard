@@ -31,6 +31,11 @@ button {
   width: 90px;
 }
 
+button:hover {
+  background: #451804;
+  color: #c1440e;
+}
+
 #buttons {
   display: flex;
   justify-content: space-between;
