@@ -9,7 +9,13 @@ body {
 }
 
 header {
-  /* header styles */
+  background: #173355;
+  text-align: center;
+  height: 10vh;
+}
+
+header > img {
+  height: 10vh;
 }
 
 main {
@@ -28,7 +34,8 @@ button {
   color: #451804;
   font-weight: bold;
   border: 2px solid #451804;
-  width: 90px;
+  font-size: 10px;
+  width: 80px;
 }
 
 button:hover {
@@ -49,7 +56,8 @@ button:hover {
 #mission-data {
   display: flex;
   align-items: center;
-  padding: 15px 0; 
+  justify-content: center;
+  padding: 30px 0;
 }
 
 #mission-data > img {
@@ -66,8 +74,6 @@ button:hover {
 #photo-grid {
   display: grid;
   grid-template-columns: 1fr;
-  overflow: scroll;
-  scroll-behavior: smooth;
   width: 100%;
   text-align: center;
 }
@@ -87,13 +93,46 @@ button:hover {
 
 /* -------------------  TABLET  --------------------- */
 @media (min-width: 768px) {
-  /* use mobile */
+  #root {
+    height: 90vh;
+  }
+
+  button {
+    font-size: 18px;
+    width: 140px;
+  }
+
+  #weather-embed {  
+    height: 100%;
+  }
+
+  #weather-embed > iframe {
+    height: 100%;
+  }
+
+  #photo-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 16px;
+    align-items: center;
+  }
+
+  .photo {
+    height: fit-content;
+  }
 }
 
 /* -------------------  DESKTOP  -------------------- */
 
 @media (min-width: 1224px) {
-  /* use mobile */
+
+  button {
+    font-size: 22px;
+    width: 200px;
+  }
+  
+  #photo-grid {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
 }
 
 /* -------------------  LARGE SCREENS  -------------- */
