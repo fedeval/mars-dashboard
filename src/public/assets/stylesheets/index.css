@@ -41,6 +41,11 @@ button:hover {
   justify-content: space-between;
 }
 
+#weather-embed {
+  margin-top: 15px;
+  height: fit-content;
+}
+
 #mission-data {
   display: flex;
   align-items: center;
