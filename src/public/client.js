@@ -38,11 +38,11 @@ window.addEventListener('load', () => {
 // Show navigation buttons to select rover
 const showNavigation = (rovers) => {
     return `
-        <ul>
+        <div id="buttons">
             ${rovers.reduce((acc, curr, i, roversList) => {
-                return acc += `<li><button onclick="addRoverInfoToStore(store)" id=${roversList.get(i)}>${roversList.get(i)}</button></li>`  
+                return acc += `<button onclick="addRoverInfoToStore(store)" id=${roversList.get(i)}>${roversList.get(i)}</button>`  
             },'')}
-        </ul>
+        </div>
     `
 }
 
