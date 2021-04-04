@@ -51,7 +51,7 @@ const showNavigation = (rovers) => {
 const showRoverInfo = (state) => {
     return `
         <div id="mission-data">
-            ${showMissionInfo(state.get('roverMissionData'))}
+            ${showMissionInfo(state.get('roverMissionData'), state.get('selectedRover'))}
         </div>
         <div id="photo-grid">
             ${showRoverPhotos(state.get('roverPhotos'))}
@@ -60,10 +60,11 @@ const showRoverInfo = (state) => {
 }
 
 // Display overview of mission data
-const showMissionInfo = (missionDataObj) => {
+const showMissionInfo = (missionDataObj, rover) => {
     return `
-        <img src="assets/images/curiosity.jpeg" alt="Curiosity rover">
+        <img src="assets/images/${rover}.jpeg" alt="Curiosity rover">
         <div id="mission-info">
+            <h3><strong>${rover.toUpperCase()}</strong></h3>
             <p><strong>Launch:</strong> ${missionDataObj.launch_date}</p>
             <p><strong>Landing:</strong> ${missionDataObj.landing_date}</p>
             <p><strong>Status:</strong> ${missionDataObj.status}</p>
