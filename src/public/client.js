@@ -21,11 +21,8 @@ const render = async (root, state) => {
 
 // Create content
 const App = (state) => {
-    let rovers = state.get('rovers')
-    if (state.get('selectedRover')) {
-        return showNavigation(rovers) + showRoverInfo(state)
-    }
-    return showNavigation(rovers) + showWeatherEmbed()
+    let navigation = showNavigation(state.get('rovers'))
+    return state.get('selectedRover') ? navigation + showRoverInfo(state) : navigation + showWeatherEmbed()
 }
 
 // Listening for load event because page should load before any JS is called
@@ -91,10 +88,10 @@ const showMissionInfo = (missionDataObj, rover) => {
 /* Higher order function: 
  - Takes an array of photo objects and a function as arguments
  - Uses the function to reduce the array of objects into a grid of phot divs */
-const generateRoverPhotosGrid = (photoArray, gridGenerator) => {
+const generateRoverPhotosGrid = (photoArray, appendElementToGrid) => {
     return `
         <div id="photo-grid">
-            ${photoArray.reduce((acc, curr) => gridGenerator(acc, curr),'')}
+            ${photoArray.reduce((acc, curr) => appendElementToGrid(acc, curr),'')}
         </div>
     `
 }
