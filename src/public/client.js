@@ -30,13 +30,36 @@ window.addEventListener('load', () => {
     render(root, store)
 })
 
-// COMPONENTS
+// ----- COMPONENTS ------
 // Show navigation buttons to select rover or homepage
 const showNavigation = (rovers) => {
     return `
         <div id="buttons">
             <button id="home" onclick="setHomepageState(store)">Home</button>
             ${rovers.reduce((acc, curr) => appendHtmlElementToString(acc, buttonHtml, curr),'')}
+        </div>
+    `
+}
+
+// Displays main page body when a rover is selected including mission data and photos
+const showRoverInfo = (state) => {
+    return `
+        ${showMissionInfo(state.get('roverMissionData'), state.get('selectedRover'))}
+        ${generateRoverPhotosGrid(state.get('roverPhotos'))}
+    `
+}
+
+// Display overview of mission data
+const showMissionInfo = (missionDataObj, rover) => {
+    return `
+        <div id="mission-data">
+            <img src="assets/images/${rover}.jpeg" alt="${rover} picture">
+            <div id="mission-info">
+                <h3><strong>${rover.toUpperCase()}</strong></h3>
+                <p><strong>Launch:</strong> ${missionDataObj.launch_date}</p>
+                <p><strong>Landing:</strong> ${missionDataObj.landing_date}</p>
+                <p><strong>Status:</strong> ${missionDataObj.status}</p>
+            </div>
         </div>
     `
 }
@@ -86,31 +109,9 @@ const showWeatherEmbed = () => {
     `
 }
 
-// Displays main page body when a rover is selected including mission data and photos
-const showRoverInfo = (state) => {
-    return `
-        ${showMissionInfo(state.get('roverMissionData'), state.get('selectedRover'))}
-        ${generateRoverPhotosGrid(state.get('roverPhotos'))}
-    `
-}
-
-// Display overview of mission data
-const showMissionInfo = (missionDataObj, rover) => {
-    return `
-        <div id="mission-data">
-            <img src="assets/images/${rover}.jpeg" alt="${rover} picture">
-            <div id="mission-info">
-                <h3><strong>${rover.toUpperCase()}</strong></h3>
-                <p><strong>Launch:</strong> ${missionDataObj.launch_date}</p>
-                <p><strong>Landing:</strong> ${missionDataObj.landing_date}</p>
-                <p><strong>Status:</strong> ${missionDataObj.status}</p>
-            </div>
-        </div>
-    `
-}
 
 
-// API CALLS
+// ------ API CALLS ------
 // Call back-end APIs to update store with data for the rover selected on button click
 const addRoverInfoToStore = async (state) => {
     const selectedRover = event.currentTarget.id
