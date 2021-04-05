@@ -49,7 +49,7 @@ const showNavigation = (rovers) => {
     `
 }
 
-// Homepage infographics
+// Homepage markup
 const homepageHtml = () => {
     return `
         <div id="homepage">
