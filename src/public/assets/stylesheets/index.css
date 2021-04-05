@@ -48,11 +48,6 @@ button:hover {
   justify-content: space-between;
 }
 
-#weather-embed {
-  margin-top: 15px;
-  height: fit-content;
-}
-
 #mission-data {
   display: flex;
   align-items: center;
@@ -93,21 +88,13 @@ button:hover {
 
 /* -------------------  TABLET  --------------------- */
 @media (min-width: 768px) {
-  #root {
-    height: 90vh;
-  }
-
   button {
     font-size: 18px;
     width: 140px;
   }
 
-  #weather-embed {  
-    height: 100%;
-  }
-
-  #weather-embed > iframe {
-    height: 100%;
+  #weather-embed {
+    padding-top: 70%
   }
 
   #photo-grid {
@@ -120,11 +107,9 @@ button:hover {
     height: fit-content;
   }
 }
-
 /* -------------------  DESKTOP  -------------------- */
 
 @media (min-width: 1224px) {
-
   button {
     font-size: 22px;
     width: 200px;
@@ -137,6 +122,6 @@ button:hover {
 
 /* -------------------  LARGE SCREENS  -------------- */
 
-@media (min-width: 1824px) {
-  /* use mobile */
+@media (min-width: 1510px) {
+
 }
