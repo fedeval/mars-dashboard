@@ -68,36 +68,40 @@ const showWeatherEmbed = () => {
 // Calls two other functions to display mission data and photos
 const showRoverInfo = (state) => {
     return `
-        <div id="mission-data">
-            ${showMissionInfo(state.get('roverMissionData'), state.get('selectedRover'))}
-        </div>
-        <div id="photo-grid">
-            ${showRoverPhotos(state.get('roverPhotos'))}
-        </div>
+        ${showMissionInfo(state.get('roverMissionData'), state.get('selectedRover'))}
+        ${generateRoverPhotosGrid(state.get('roverPhotos'), insertPhotoIntoGrid)}
     `
 }
 
 // Display overview of mission data
 const showMissionInfo = (missionDataObj, rover) => {
     return `
-        <img src="assets/images/${rover}.jpeg" alt="Curiosity rover">
-        <div id="mission-info">
-            <h3><strong>${rover.toUpperCase()}</strong></h3>
-            <p><strong>Launch:</strong> ${missionDataObj.launch_date}</p>
-            <p><strong>Landing:</strong> ${missionDataObj.landing_date}</p>
-            <p><strong>Status:</strong> ${missionDataObj.status}</p>
+        <div id="mission-data">
+            <img src="assets/images/${rover}.jpeg" alt="Curiosity rover">
+            <div id="mission-info">
+                <h3><strong>${rover.toUpperCase()}</strong></h3>
+                <p><strong>Launch:</strong> ${missionDataObj.launch_date}</p>
+                <p><strong>Landing:</strong> ${missionDataObj.landing_date}</p>
+                <p><strong>Status:</strong> ${missionDataObj.status}</p>
+            </div>
         </div>
     `
 }
 
-// Higher order function taking an array of photo objects which get reduced to a grid html elements
-const showRoverPhotos = (photoArray) => {
-    return `${photoArray.reduce((acc, curr) => acc += photoDiv(curr),'')}`
+/* Higher order function: 
+ - Takes an array of photo objects and a function as arguments
+ - Uses the function to reduce the array of objects into a grid of phot divs */
+const generateRoverPhotosGrid = (photoArray, gridGenerator) => {
+    return `
+        <div id="photo-grid">
+            ${photoArray.reduce((acc, curr) => gridGenerator(acc, curr),'')}
+        </div>
+    `
 }
 
-// Return a photo div including an image and the date on which it was taken
-const photoDiv = (photoObj) => {
-    return `
+// Append a photo div including an image and the date on which it was taken to a grid
+const insertPhotoIntoGrid = (grid, photoObj) => {
+    return grid + `
         <div class="photo">
             <img src=${photoObj.img_src}>
             <p><strong>${photoObj.earth_date}</strong></p>
