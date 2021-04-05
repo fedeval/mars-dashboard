@@ -75,7 +75,7 @@ const generateRoverPhotosGrid = (photoArray) => {
 
 /* Higher order function: 
  - Takes an HTML string, an HTML generator function and some data
- - Calls the generator function to create a new HTML element which is then concatenated to the string */
+ - Calls the generator function to create a new HTML element which is then concatenated to the HTML string */
 const appendHtmlElementToString = (htmlString, baseHtmlGenerator, elementData) => htmlString.concat(baseHtmlGenerator(elementData))
 
 // Generates the HTML for a button component
