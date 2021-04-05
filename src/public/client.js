@@ -136,28 +136,36 @@ const addRoverInfoToStore = async (state) => {
 
 // Get mission information
 const getMissionData = (rover) => {
-    let missionData = fetch(`http://localhost:3000/${rover}`)
-        .then(res => res.json())
-        .then((data) => {
-            return (({launch_date, landing_date, status}) => ({
-                launch_date,
-                landing_date,
-                status
-            }))(data.roverData.photo_manifest);
-        })
-    return missionData
+    try {
+        let missionData = fetch(`http://localhost:3000/${rover}`)
+            .then(res => res.json())
+            .then((data) => {
+                return (({launch_date, landing_date, status}) => ({
+                    launch_date,
+                    landing_date,
+                    status
+                }))(data.roverData.photo_manifest);
+            })
+        return missionData
+    } catch (err) {
+        console.log('error:', err);
+    }
 }
 
 // Get latest photos
 const getLatestPhotos = (rover) => {
-    let latestPhotos = fetch(`http://localhost:3000/${rover}/photos`)
-        .then(res => res.json())
-        .then((data) => {
-            if (rover.toLowerCase() === 'curiosity') {
-                return data.roverPhotos.latest_photos.map(photo => ({img_src: photo.img_src, earth_date: photo.earth_date}))
-            }
-            // Opportunity and Spirit API calls return an object where photos is the right key rather than latest_photos
-            return data.roverPhotos.photos.map(photo => ({img_src: photo.img_src, earth_date: photo.earth_date}))
-        })
-    return latestPhotos
+    try {
+        let latestPhotos = fetch(`http://localhost:3000/${rover}/photos`)
+            .then(res => res.json())
+            .then((data) => {
+                if (rover.toLowerCase() === 'curiosity') {
+                    return data.roverPhotos.latest_photos.map(photo => ({img_src: photo.img_src, earth_date: photo.earth_date}))
+                }
+                // Opportunity and Spirit API calls return an object where photos is the right key rather than latest_photos
+                return data.roverPhotos.photos.map(photo => ({img_src: photo.img_src, earth_date: photo.earth_date}))
+            })
+        return latestPhotos
+    } catch (err) {
+        console.log('error:', err);
+    }
 }
