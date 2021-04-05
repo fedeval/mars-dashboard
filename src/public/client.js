@@ -38,7 +38,6 @@ const fullPageHtml = (state) => {
     return navigation.concat(weatherEmbed())
 }
 
-
 // ----- COMPONENTS ------
 // Show navigation buttons to select rover or homepage
 const showNavigation = (rovers) => {
