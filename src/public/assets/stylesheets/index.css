@@ -18,6 +18,10 @@ header > img {
   height: 10vh;
 }
 
+/*#root {
+  height: 90vh;
+}*/
+
 main {
   flex: 1;
   padding: 20px;
@@ -48,11 +52,12 @@ button:hover {
   justify-content: space-between;
 }
 
-#weather-embed {
+/*#weather-embed {
   margin-top: 15px;
-  height: fit-content;
+  height: 500px;
+  width: 100%;
 }
-
+*/
 #mission-data {
   display: flex;
   align-items: center;
@@ -102,14 +107,14 @@ button:hover {
     width: 140px;
   }
 
-  #weather-embed {  
-    height: 100%;
+/*  #weather-embed {  
+    height: 580px;
   }
 
   #weather-embed > iframe {
     height: 100%;
   }
-
+*/
   #photo-grid {
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 16px;
@@ -129,6 +134,10 @@ button:hover {
     font-size: 22px;
     width: 200px;
   }
+
+/*  #weather-embed {  
+    height: 640px;
+  }*/
   
   #photo-grid {
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -138,5 +147,7 @@ button:hover {
 /* -------------------  LARGE SCREENS  -------------- */
 
 @media (min-width: 1824px) {
-  /* use mobile */
+/*  #weather-embed {  
+    height: 685px;
+  }*/
 }
