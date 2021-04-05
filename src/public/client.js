@@ -35,7 +35,7 @@ const fullPageHtml = (state) => {
     if (rover) {
         return navigation.concat(missionInfo(state.get('roverMissionData'), rover), photosGrid(state.get('roverPhotos')))
     }
-    return navigation.concat(weatherInfo(state.get('weatherData')))
+    return navigation.concat(homepageHtml())
 weatherDataObj}
 
 // ----- COMPONENTS ------
@@ -47,6 +47,11 @@ const showNavigation = (rovers) => {
             ${rovers.reduce((acc, curr) => appendHtmlElementToString(acc, buttonHtml, curr),'')}
         </div>
     `
+}
+
+// Homepage infographics
+const homepageHtml = (rovers) => {
+    return ''
 }
 
 // Display overview of mission data
@@ -91,7 +96,7 @@ const photoDivHtml = (photoData) => {
     `
 }
 
-// Render homepage with weather embed
+// Render homepage with rover infographics
 const setHomepageState = async (state) => {
     const newState = state
         .set('selectedRover', '')
