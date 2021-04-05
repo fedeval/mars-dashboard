@@ -58,7 +58,22 @@ const getRoverPhotos = (rovers) => {
   })
 }
 
-getRoverData(roverNames)
-getRoverPhotos(roverNames)
+// Commented out as API is temporarily not collecting temperature data, keeping for future use
+// Get weather data
+// const getWeatherData = () => {
+//   app.get('/weather', async (req, res) =>{
+//     try {
+//       weatherData = await fetch(`https://api.nasa.gov/insight_weather/?api_key=${process.env.API_KEY}&feedtype=json&ver=1.0`)
+//         .then(res => res.json())
+//       res.send({weatherData})    
+//     } catch (err) {
+//       console.log('error:', err)
+//     }
+//   })
+// }
+
+getRoverData(roverNames);
+getRoverPhotos(roverNames);
+// getWeatherData();
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

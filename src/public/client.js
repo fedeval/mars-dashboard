@@ -35,8 +35,8 @@ const fullPageHtml = (state) => {
     if (rover) {
         return navigation.concat(missionInfo(state.get('roverMissionData'), rover), photosGrid(state.get('roverPhotos')))
     }
-    return navigation.concat(weatherEmbed())
-}
+    return navigation.concat(homepageHtml())
+weatherDataObj}
 
 // ----- COMPONENTS ------
 // Show navigation buttons to select rover or homepage
@@ -47,6 +47,11 @@ const showNavigation = (rovers) => {
             ${rovers.reduce((acc, curr) => appendHtmlElementToString(acc, buttonHtml, curr),'')}
         </div>
     `
+}
+
+// Homepage infographics
+const homepageHtml = (rovers) => {
+    return ''
 }
 
 // Display overview of mission data
@@ -91,22 +96,14 @@ const photoDivHtml = (photoData) => {
     `
 }
 
-// Render homepage with weather embed
-const setHomepageState = (state) => {
+// Render homepage with rover infographics
+const setHomepageState = async (state) => {
     const newState = state
         .set('selectedRover', '')
         .set('roverMissionData', {})
         .set('roverPhotos', [])
         .set('isHomepage', true)
     updateStore(state, newState)
-}
-
-const weatherEmbed = () => {
-    return `
-        <div id="weather-embed">
-            <iframe src='https://mars.nasa.gov/layout/embed/image/mslweather/' width='100%' height='530'  scrolling='no' frameborder='0'></iframe>
-        </div>
-    `
 }
 
 // ------ API CALLS ------
