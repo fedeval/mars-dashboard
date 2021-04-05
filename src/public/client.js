@@ -15,33 +15,78 @@ const updateStore = (store, newState) => {
     render(root, store)
 }
 
-const render = async (root, state) => {
-    root.innerHTML = App(state)
-}
+const render = async (root, state) => root.innerHTML = App(fullPageHtml, state)
 
-// Create content
-const App = (state) => {
-    let rovers = state.get('rovers')
-    if (state.get('selectedRover')) {
-        return showNavigation(rovers) + showRoverInfo(state)
-    }
-    return showNavigation(rovers) + showWeatherEmbed()
-}
+
+/* Higher order function:
+- Take state and generator function  with the HTML markup for the page
+- Use generator function to return the right markup for the current state */
+const App = (pageHtmlGenerator, state) => pageHtmlGenerator(state)
 
 // Listening for load event because page should load before any JS is called
 window.addEventListener('load', () => {
     render(root, store)
 })
 
-// COMPONENTS
+// ----- FULL PAGE ------
+const fullPageHtml = (state) => {
+    let rover = state.get('selectedRover')
+    const navigation = showNavigation(state.get('rovers'))
+    if (rover) {
+        return navigation.concat(missionInfo(state.get('roverMissionData'), rover), photosGrid(state.get('roverPhotos')))
+    }
+    return navigation.concat(weatherEmbed())
+}
+
+// ----- COMPONENTS ------
 // Show navigation buttons to select rover or homepage
 const showNavigation = (rovers) => {
     return `
         <div id="buttons">
             <button id="home" onclick="setHomepageState(store)">Home</button>
-            ${rovers.reduce((acc, curr, i, roversList) => {
-                return acc += `<button onclick="addRoverInfoToStore(store)" id=${roversList.get(i)}>${roversList.get(i)}</button>`  
-            },'')}
+            ${rovers.reduce((acc, curr) => appendHtmlElementToString(acc, buttonHtml, curr),'')}
+        </div>
+    `
+}
+
+// Display overview of mission data
+const missionInfo = (missionDataObj, rover) => {
+    return `
+        <div id="mission-data">
+            <img src="assets/images/${rover}.jpeg" alt="${rover} picture">
+            <div id="mission-info">
+                <h3><strong>${rover.toUpperCase()}</strong></h3>
+                <p><strong>Launch:</strong> ${missionDataObj.launch_date}</p>
+                <p><strong>Landing:</strong> ${missionDataObj.landing_date}</p>
+                <p><strong>Status:</strong> ${missionDataObj.status}</p>
+            </div>
+        </div>
+    `
+}
+
+// Generate photo grid from array of objects with photo metadata
+const photosGrid = (photoArray) => {
+    return `
+        <div id="photo-grid">
+            ${photoArray.reduce((acc, curr) => appendHtmlElementToString(acc, photoDivHtml, curr),'')}
+        </div>
+    `
+}
+
+/* Higher order function: 
+ - Takes an HTML string, an HTML generator function and some data
+ - Calls the generator function to create a new HTML element which is then concatenated to the HTML string */
+const appendHtmlElementToString = (htmlString, baseHtmlGenerator, elementData) => htmlString.concat(baseHtmlGenerator(elementData))
+
+// Generates the HTML for a button component
+const buttonHtml = (buttonData) => `<button onclick="addRoverInfoToStore(store)" id=${buttonData}>${buttonData}</button>`
+
+// Generates the HTML for a photo div component
+const photoDivHtml = (photoData) => {
+    return `
+        <div class="photo">
+            <img src=${photoData.img_src}>
+            <p><strong>${photoData.earth_date}</strong></p>
         </div>
     `
 }
@@ -56,7 +101,7 @@ const setHomepageState = (state) => {
     updateStore(state, newState)
 }
 
-const showWeatherEmbed = () => {
+const weatherEmbed = () => {
     return `
         <div id="weather-embed">
             <iframe src='https://mars.nasa.gov/layout/embed/image/mslweather/' width='100%' height='530'  scrolling='no' frameborder='0'></iframe>
@@ -64,48 +109,7 @@ const showWeatherEmbed = () => {
     `
 }
 
-// Higher order function returning the main html structure to display all rover info
-// Calls two other functions to display mission data and photos
-const showRoverInfo = (state) => {
-    return `
-        <div id="mission-data">
-            ${showMissionInfo(state.get('roverMissionData'), state.get('selectedRover'))}
-        </div>
-        <div id="photo-grid">
-            ${showRoverPhotos(state.get('roverPhotos'))}
-        </div>
-    `
-}
-
-// Display overview of mission data
-const showMissionInfo = (missionDataObj, rover) => {
-    return `
-        <img src="assets/images/${rover}.jpeg" alt="Curiosity rover">
-        <div id="mission-info">
-            <h3><strong>${rover.toUpperCase()}</strong></h3>
-            <p><strong>Launch:</strong> ${missionDataObj.launch_date}</p>
-            <p><strong>Landing:</strong> ${missionDataObj.landing_date}</p>
-            <p><strong>Status:</strong> ${missionDataObj.status}</p>
-        </div>
-    `
-}
-
-// Higher order function taking an array of photo objects which get reduced to a grid html elements
-const showRoverPhotos = (photoArray) => {
-    return `${photoArray.reduce((acc, curr) => acc += photoDiv(curr),'')}`
-}
-
-// Return a photo div including an image and the date on which it was taken
-const photoDiv = (photoObj) => {
-    return `
-        <div class="photo">
-            <img src=${photoObj.img_src}>
-            <p><strong>${photoObj.earth_date}</strong></p>
-        </div>
-    `
-}
-
-// API CALLS
+// ------ API CALLS ------
 // Call back-end APIs to update store with data for the rover selected on button click
 const addRoverInfoToStore = async (state) => {
     const selectedRover = event.currentTarget.id
