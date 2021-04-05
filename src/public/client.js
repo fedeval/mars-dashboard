@@ -15,20 +15,29 @@ const updateStore = (store, newState) => {
     render(root, store)
 }
 
-const render = async (root, state) => {
-    root.innerHTML = App(state)
-}
+const render = async (root, state) => root.innerHTML = App(fullPageHtml, state)
 
-// Create content
-const App = (state) => {
-    let navigation = showNavigation(state.get('rovers'))
-    return state.get('selectedRover') ? navigation + showRoverInfo(state) : navigation + showWeatherEmbed()
-}
+
+/* Higher order function:
+- Take state and generator function  with the HTML markup for the page
+- Use generator function to return the right markup for the current state */
+const App = (pageHtmlGenerator, state) => pageHtmlGenerator(state)
 
 // Listening for load event because page should load before any JS is called
 window.addEventListener('load', () => {
     render(root, store)
 })
+
+// ----- FULL PAGE ------
+const fullPageHtml = (state) => {
+    let rover = state.get('selectedRover')
+    const navigation = showNavigation(state.get('rovers'))
+    if (rover) {
+        return navigation.concat(missionInfo(state.get('roverMissionData'), rover), photosGrid(state.get('roverPhotos')))
+    }
+    return navigation.concat(weatherEmbed())
+}
+
 
 // ----- COMPONENTS ------
 // Show navigation buttons to select rover or homepage
@@ -41,16 +50,8 @@ const showNavigation = (rovers) => {
     `
 }
 
-// Displays main page body when a rover is selected including mission data and photos
-const showRoverInfo = (state) => {
-    return `
-        ${showMissionInfo(state.get('roverMissionData'), state.get('selectedRover'))}
-        ${generateRoverPhotosGrid(state.get('roverPhotos'))}
-    `
-}
-
 // Display overview of mission data
-const showMissionInfo = (missionDataObj, rover) => {
+const missionInfo = (missionDataObj, rover) => {
     return `
         <div id="mission-data">
             <img src="assets/images/${rover}.jpeg" alt="${rover} picture">
@@ -65,7 +66,7 @@ const showMissionInfo = (missionDataObj, rover) => {
 }
 
 // Generate photo grid from array of objects with photo metadata
-const generateRoverPhotosGrid = (photoArray) => {
+const photosGrid = (photoArray) => {
     return `
         <div id="photo-grid">
             ${photoArray.reduce((acc, curr) => appendHtmlElementToString(acc, photoDivHtml, curr),'')}
@@ -101,15 +102,13 @@ const setHomepageState = (state) => {
     updateStore(state, newState)
 }
 
-const showWeatherEmbed = () => {
+const weatherEmbed = () => {
     return `
         <div id="weather-embed">
             <iframe src='https://mars.nasa.gov/layout/embed/image/mslweather/' width='100%' height='530'  scrolling='no' frameborder='0'></iframe>
         </div>
     `
 }
-
-
 
 // ------ API CALLS ------
 // Call back-end APIs to update store with data for the rover selected on button click
