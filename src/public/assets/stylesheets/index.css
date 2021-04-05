@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Space+Grotesk:wght@300;400;600&display=swap');
+
 /* -------------------  MOBILE  --------------------- */
 
 body {
@@ -21,10 +23,8 @@ header > img {
 main {
   flex: 1;
   padding: 20px;
-}
-
-footer {
-  /* footer styles */
+  height: 100%;
+  display: flex;
 }
 
 button {
@@ -36,6 +36,7 @@ button {
   border: 2px solid #451804;
   font-size: 10px;
   width: 80px;
+  font-family: 'Space Grotesk';
 }
 
 button:hover {
@@ -43,9 +44,55 @@ button:hover {
   color: #c1440e;
 }
 
+#root {
+  width: 100%;
+}
+
 #buttons {
   display: flex;
   justify-content: space-between;
+}
+
+#banner {
+  text-align: center;
+  height: 100%;
+}
+
+#banner > img {
+  object-fit: cover;
+  border-radius: 6px;
+  width: 100%;
+  height: 100%;
+}
+
+#homepage {
+  padding-bottom: 20px;
+  margin-top: 20px;
+  text-align: center;
+  background: rgba( 193, 68, 14, 0.15 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 13.5px );
+  -webkit-backdrop-filter: blur( 13.5px );
+  border-radius: 10px;
+  border: 1px solid rgba( 69, 24, 4, 0.18 );
+}
+
+#homepage-body > h1 {
+  font-family: 'Space Grotesk';
+  font-weight: bold;
+  color: #451804;
+  font-size: 40px;
+}
+
+#homepage-body > h3 {
+  font-family: 'Space Grotesk';
+  color: #c1440e;
+}
+
+#homepage-body > p {
+  font-family: 'Roboto';
+  font-weight: bold;
+  padding: 0 20px;
 }
 
 #mission-data {
@@ -53,6 +100,7 @@ button:hover {
   align-items: center;
   justify-content: center;
   padding: 30px 0;
+  font-family: 'Space Grotesk';
 }
 
 #mission-data > img {
@@ -93,10 +141,6 @@ button:hover {
     width: 140px;
   }
 
-  #weather-embed {
-    padding-top: 70%
-  }
-
   #photo-grid {
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 16px;
@@ -113,6 +157,13 @@ button:hover {
   button {
     font-size: 22px;
     width: 200px;
+  }
+
+  #homepage {
+    height: 90%;
+    display: flex;
+    align-items: center;
+    padding-bottom: 0;
   }
   
   #photo-grid {

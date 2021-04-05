@@ -52,15 +52,19 @@ const showNavigation = (rovers) => {
 // Homepage infographics
 const homepageHtml = () => {
     return `
-        <div id="banner">
-            <img src="assets/images/man-on-mars.jpeg" alt="Mars like you've never seen it">
+        <div id="homepage">
+            <div id="banner">
+                <img src="assets/images/man-on-mars.jpeg" alt="Mars like you've never seen it">
+            </div>
+            <div id="homepage-body">
+                <h1>MARS</h1>
+                <h3>Like you've never seen it</h3>
+                <img src="assets/images/rover-icon.png" alt="Stylised rover">
+                <p> Follow NASA rovers Curiosity, Opportunity and Spirit on their
+                journey around the red planet by browsing through their most recent
+                pictures. </p>
+            </div>
         </div>
-        <h1>MARS</h1>
-        <h3>Like you've never seen it</h3>
-        <img src="assets/images/rover-icon.png" alt="Stylised rover">
-        <p> Follow NASA rovers Curiosity, Opportunity and Spirit on their
-        journey around the red planet by browsing through their most recent
-        pictures. </p>
     `
 }
 
