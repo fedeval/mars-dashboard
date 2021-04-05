@@ -35,8 +35,8 @@ const fullPageHtml = (state) => {
     if (rover) {
         return navigation.concat(missionInfo(state.get('roverMissionData'), rover), photosGrid(state.get('roverPhotos')))
     }
-    return navigation.concat(weatherEmbed())
-}
+    return navigation.concat(weatherInfo(state.get('weatherData')))
+weatherDataObj}
 
 // ----- COMPONENTS ------
 // Show navigation buttons to select rover or homepage
@@ -92,18 +92,13 @@ const photoDivHtml = (photoData) => {
 }
 
 // Render homepage with weather embed
-const setHomepageState = (state) => {
+const setHomepageState = async (state) => {
     const newState = state
         .set('selectedRover', '')
         .set('roverMissionData', {})
         .set('roverPhotos', [])
         .set('isHomepage', true)
     updateStore(state, newState)
-}
-
-const weatherEmbed = () => {
-    return `
-    `
 }
 
 // ------ API CALLS ------
