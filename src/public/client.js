@@ -103,9 +103,6 @@ const setHomepageState = (state) => {
 
 const weatherEmbed = () => {
     return `
-        <div id="weather-embed">
-            <iframe src='https://mars.nasa.gov/layout/embed/image/mslweather/' scrolling='no' frameborder='0'></iframe>
-        </div>
     `
 }
 
