@@ -36,9 +36,34 @@ const showNavigation = (rovers) => {
     return `
         <div id="buttons">
             <button id="home" onclick="setHomepageState(store)">Home</button>
-            ${rovers.reduce((acc, curr, i, roversList) => {
-                return acc += `<button onclick="addRoverInfoToStore(store)" id=${roversList.get(i)}>${roversList.get(i)}</button>`  
-            },'')}
+            ${rovers.reduce((acc, curr) => appendHtmlElementToString(acc, buttonHtml, curr),'')}
+        </div>
+    `
+}
+
+// Generate photo grid from array of objects with photo metadata
+const generateRoverPhotosGrid = (photoArray) => {
+    return `
+        <div id="photo-grid">
+            ${photoArray.reduce((acc, curr) => appendHtmlElementToString(acc, photoDivHtml, curr),'')}
+        </div>
+    `
+}
+
+/* Higher order function: 
+ - Takes an HTML string, an HTML generator function and some data
+ - Calls the generator function to create a new HTML element which is then concatenated to the string */
+const appendHtmlElementToString = (htmlString, baseHtmlGenerator, elementData) => htmlString.concat(baseHtmlGenerator(elementData))
+
+// Generates the HTML for a button component
+const buttonHtml = (buttonData) => `<button onclick="addRoverInfoToStore(store)" id=${buttonData}>${buttonData}</button>`
+
+// Generates the HTML for a photo div component
+const photoDivHtml = (photoData) => {
+    return `
+        <div class="photo">
+            <img src=${photoData.img_src}>
+            <p><strong>${photoData.earth_date}</strong></p>
         </div>
     `
 }
@@ -61,12 +86,11 @@ const showWeatherEmbed = () => {
     `
 }
 
-// Higher order function returning the main html structure to display all rover info
-// Calls two other functions to display mission data and photos
+// Displays main page body when a rover is selected including mission data and photos
 const showRoverInfo = (state) => {
     return `
         ${showMissionInfo(state.get('roverMissionData'), state.get('selectedRover'))}
-        ${generateRoverPhotosGrid(state.get('roverPhotos'), insertPhotoIntoGrid)}
+        ${generateRoverPhotosGrid(state.get('roverPhotos'))}
     `
 }
 
@@ -85,26 +109,6 @@ const showMissionInfo = (missionDataObj, rover) => {
     `
 }
 
-/* Higher order function: 
- - Takes an array of photo objects and a function as arguments
- - Uses the function to reduce the array of objects into a grid of phot divs */
-const generateRoverPhotosGrid = (photoArray, appendElementToGrid) => {
-    return `
-        <div id="photo-grid">
-            ${photoArray.reduce((acc, curr) => appendElementToGrid(acc, curr),'')}
-        </div>
-    `
-}
-
-// Append a photo div including an image and the date on which it was taken to a grid
-const insertPhotoIntoGrid = (grid, photoObj) => {
-    return grid + `
-        <div class="photo">
-            <img src=${photoObj.img_src}>
-            <p><strong>${photoObj.earth_date}</strong></p>
-        </div>
-    `
-}
 
 // API CALLS
 // Call back-end APIs to update store with data for the rover selected on button click
