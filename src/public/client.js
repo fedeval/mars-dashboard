@@ -135,8 +135,8 @@ const addRoverInfoToStore = async (state) => {
 }
 
 // Get mission information
-const getMissionData = async (rover) => {
-    let missionData = await fetch(`http://localhost:3000/${rover}`)
+const getMissionData = (rover) => {
+    let missionData = fetch(`http://localhost:3000/${rover}`)
         .then(res => res.json())
         .then((data) => {
             return (({launch_date, landing_date, status}) => ({
@@ -149,8 +149,8 @@ const getMissionData = async (rover) => {
 }
 
 // Get latest photos
-const getLatestPhotos = async (rover) => {
-    let latestPhotos = await fetch(`http://localhost:3000/${rover}/photos`)
+const getLatestPhotos = (rover) => {
+    let latestPhotos = fetch(`http://localhost:3000/${rover}/photos`)
         .then(res => res.json())
         .then((data) => {
             if (rover.toLowerCase() === 'curiosity') {
