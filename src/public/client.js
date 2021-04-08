@@ -137,7 +137,8 @@ const addRoverInfoToStore = async (state) => {
 // Get mission information
 const getMissionData = (rover) => {
     try {
-        let missionData = fetch(`http://localhost:3000/${rover}`)
+        let url = port === 3000 ? `http://localhost:3000/${rover}` : `https://mars-rovers-ph.herokuapp.com/${rover}`
+        let missionData = fetch(url)
             .then(res => res.json())
             .then((data) => {
                 return (({launch_date, landing_date, status}) => ({
@@ -155,7 +156,8 @@ const getMissionData = (rover) => {
 // Get latest photos
 const getLatestPhotos = (rover) => {
     try {
-        let latestPhotos = fetch(`http://localhost:3000/${rover}/photos`)
+        let url = port === 3000 ? `http://localhost:3000/${rover}/photos` : `https://mars-rovers-ph.herokuapp.com/${rover}/photos`
+        let latestPhotos = fetch(url)
             .then(res => res.json())
             .then((data) => {
                 if (rover.toLowerCase() === 'curiosity') {
