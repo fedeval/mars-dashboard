@@ -4,7 +4,7 @@ const store = Immutable.Map({
     selectedRover: '',
     roverMissionData: {},
     roverPhotos: [],
-    isHomepage: true
+    isHomepage: true,
 })
 
 // Add markup to the page
@@ -124,8 +124,8 @@ const setHomepageState = async (state) => {
 // Call back-end APIs to update store with data for the rover selected on button click
 const addRoverInfoToStore = async (state) => {
     const selectedRover = event.currentTarget.id
-    const roverMissionData = await getMissionData(selectedRover)
-    const roverPhotos = await getLatestPhotos(selectedRover)
+    const roverMissionData = await getMissionData(selectedRover, state.port)
+    const roverPhotos = await getLatestPhotos(selectedRover, state.port)
     const newState = state
         .set('selectedRover', selectedRover)
         .set('roverMissionData', roverMissionData)
@@ -135,10 +135,9 @@ const addRoverInfoToStore = async (state) => {
 }
 
 // Get mission information
-const getMissionData = (rover) => {
+const getMissionData = (rover, env) => {
     try {
-        let url = port === 3000 ? `http://localhost:3000/${rover}` : `https://mars-rovers-ph.herokuapp.com/${rover}`
-        let missionData = fetch(url)
+        let missionData = fetch(`/${rover}`)
             .then(res => res.json())
             .then((data) => {
                 return (({launch_date, landing_date, status}) => ({
@@ -156,8 +155,7 @@ const getMissionData = (rover) => {
 // Get latest photos
 const getLatestPhotos = (rover) => {
     try {
-        let url = port === 3000 ? `http://localhost:3000/${rover}/photos` : `https://mars-rovers-ph.herokuapp.com/${rover}/photos`
-        let latestPhotos = fetch(url)
+        let latestPhotos = fetch(`/${rover}/photos`)
             .then(res => res.json())
             .then((data) => {
                 if (rover.toLowerCase() === 'curiosity') {
