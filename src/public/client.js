@@ -72,7 +72,7 @@ const homepageHtml = () => {
 const missionInfo = (missionDataObj, rover) => {
     return `
         <div id="mission-data">
-            <img src="assets/images/${rover}.jpeg" alt="${rover} picture">
+            <img src="assets/images/${rover.toLowerCase()}.jpeg" alt="${rover} picture">
             <div id="mission-info">
                 <h3><strong>${rover.toUpperCase()}</strong></h3>
                 <p><strong>Launch:</strong> ${missionDataObj.launch_date}</p>
