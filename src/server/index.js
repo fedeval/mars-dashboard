@@ -16,7 +16,6 @@ app.use(favicon(path.join(__dirname,'..','public','assets','images','favicon.png
 // API Calls
 const roverNames = ['curiosity', 'opportunity', 'spirit']
 
-
 // Get mission data for each rover
 const getRoverData = (rovers) => {
   rovers.forEach(rover => {
